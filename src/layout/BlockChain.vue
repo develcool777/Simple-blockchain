@@ -8,12 +8,13 @@
           v-for="(block, i) in getChain" 
           :key="i" 
           :block="block"
+          :id="i"
           @click="currentBlock = i"
           :style="{borderColor: currentBlock === i ? 'blue' : none}"
         />
       </div>
       <div class="bchain__title bchain__title--transactions">Transactions inside block {{ currentBlock + 1 }}</div>
-      <Table :transactions="getChain[currentBlock].transactions" />
+      <Table :transactions="getChain[currentBlock].transactions"/>
     </div>
   </div>
 </template>

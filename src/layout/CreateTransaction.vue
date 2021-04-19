@@ -32,13 +32,23 @@
     >
   </div>
   <div class="addTransaction__btn" @click="click()">Sign and create transaction</div>
+  <Modal 
+    v-if="getShowModal" 
+    :result="`Transaction has been created`" 
+    :btn="`Pending transaction`"
+    :to="`/pending-transaction`"
+  />
 </template>
 
 <script>
+import Modal from '@/components/Modal'
 import Transaction from '@/service/Transaction';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
- name: 'CreateTransaction',
+  name: 'CreateTransaction',
+  components: {
+    Modal
+  },
   data() {
     return {
       tx: {},
@@ -48,16 +58,17 @@ export default {
   },
   computed: {
     ...mapState(['bcInstance']),
-    ...mapGetters(['getWalletKeys'])
+    ...mapGetters(['getWalletKeys', 'getShowModal'])
   },
   created() {
     this.tx = new Transaction();
-    console.log(this.getWalletKeys);
   },
   methods: {
+    ...mapActions(['CHANGE_SHOW_MODAL']),
     click() {
       this.cheakData();
       this.createTransaction();
+      this.CHANGE_SHOW_MODAL(true);
     },
     cheakData() {
       this.tx.receiver = this.to;
@@ -67,7 +78,6 @@ export default {
       this.tx.sender = this.getWalletKeys[0].publicKey;
       this.tx.signTransaction(this.getWalletKeys[0].keyObj);
       this.bcInstance.addTransaction(this.tx);
-
       this.tx = new Transaction();
       this.to = '';
       this.amount = null;

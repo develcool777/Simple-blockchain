@@ -48,10 +48,10 @@ export default {
   methods: {
     save() {
       if (this.reward !== null) {
-        this.bcInstance.miningReward = this.reward;
+        this.bcInstance.miningReward = +this.reward;
       }
       if (this.difficulty !== null) {
-        this.bcInstance.difficulty = this.difficulty;
+        this.bcInstance.difficulty = +this.difficulty;
       }
       this.reward = null;
       this.difficulty = null;

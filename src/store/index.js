@@ -4,12 +4,14 @@ export default createStore({
   state: {
     bcInstance: {},
     chain: [],
-    walletKeys: []
+    walletKeys: [],
+    showModal: false
   },
   getters: {
     getBcInstance: state => state.bcInstance,
     getChain: state => state.chain,
-    getWalletKeys: state => state.walletKeys
+    getWalletKeys: state => state.walletKeys,
+    getShowModal: state => state.showModal
   },
   mutations: {
     setBcInstance(state, instance) {
@@ -23,6 +25,9 @@ export default createStore({
     },
     addWalletKeys(state, obj) {
       state.walletKeys.push(obj);
+    },
+    changeShowModal(state, boolean) {
+      state.showModal = boolean;
     }  
   },
   actions: {
@@ -30,13 +35,17 @@ export default createStore({
       commit('setBcInstance', payload.blockchain);
       commit('setChain', payload.chain);
       commit('setWalletKeys', []);
-      commit('addWalletKeys', payload.walletKeys)
+      commit('addWalletKeys', payload.walletKeys);
+      commit('changeShowModal', false);
     },
     SET_CHAIN({commit}, array) {
       commit('setChain', array);
     },
     SET_WALLETS_KEYS({commit}, array) {
       commit('setWalletKeys', array);
+    },
+    CHANGE_SHOW_MODAL({commit}, boolean) {
+      commit('changeShowModal', boolean);
     }
   }
 })

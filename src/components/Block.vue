@@ -8,10 +8,10 @@
     </div>
     <div class="block__cell">
       <div class="block__title">Hash</div>
-      <div class="block__hash">{{ block.hash }}</div>
+      <div class="block__hash" :style="{color: colors[id]}">{{ block.hash }}</div>
       <br>
       <div class="block__title">Hash of previous block</div>
-      <div class="block__hash">{{ block.previousHash }}</div>
+      <div class="block__hash" :style="{color: id === 0 ? 'black' : colors[id - 1]}">{{ block.previousHash }}</div>
     </div>
     <div class="block__cell">
       <div class="block__title">Nonce</div>
@@ -29,6 +29,12 @@ export default {
   name: 'Block',
   props: {
     block: Object,
+    id: Number
+  },
+  data() {
+    return {
+      colors: ['purple', 'green', 'pink', 'blue', 'red']
+    }
   }
 }
 </script>

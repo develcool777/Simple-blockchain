@@ -10,7 +10,7 @@
           <td>{{ i }}</td>
           <td class="table__limit">{{ item.sender === null ? 'System' : item.sender}}</td>
           <td class="table__limit">{{ item.receiver }}</td>
-          <td class="table__amount">{{ item.amount }}</td>
+          <td class="table__amount">{{ item.amount }} <span v-if="item.sender === null" class="table__reward">(Block reward)</span></td>
           <td class="table__time">{{ item.timeStamp }} <span class="table__convert">{{ convert(item.timeStamp) }}</span> </td>
           <td :style="{color: item.isValid() ? 'green' : 'red'}">{{ item.isValid() ? 'Yes' : 'No' }}</td>
         </tr>
@@ -61,20 +61,17 @@ export default {
   &__amount, &__time {
     position: relative;
   }
-  &__amount::after, &__convert {
+  &__reward, &__convert {
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    content: "(Block reward)";
+    content: "";
     font-size: rem(10);
     color: gray;
   }
-  &__amount::after {
-    font-size: rem(8);
-  }
-  &__convert {
-    content: "";
+  &__reward {
+    // font-size: rem(8);
   }
   &__limit {
     max-width: rem(200);
@@ -83,6 +80,7 @@ export default {
   }
 }
 table {
+  margin-bottom: rem(20);
   width: 100%;
   border-collapse: collapse;
 }
@@ -104,7 +102,7 @@ td {
 tr:hover {
   background: gray;
 }
-tr:hover .table__amount::after, tr:hover .table__convert {
+tr:hover .table__reward, tr:hover .table__convert {
   color: lightgray;
 }
 </style>

@@ -4,28 +4,38 @@
     <Table :transactions="getPendingTransactions"/>
     <div class="pendingTransaction__btn" @click="minePendingTransactions()">Start mining</div>
   </div>
+  <Modal 
+    v-if="getShowModal" 
+    :result="`Block has been created`" 
+    :btn="`Blockchain`"
+    :to="`/`"
+  />
 </template>
 
 <script>
-import Table from '@/components/Table'
-import { mapState, mapGetters } from 'vuex';
+import Modal from '@/components/Modal';
+import Table from '@/components/Table';
+import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
   name: 'PendingTransaction',
   components: {
-    Table
+    Table,
+    Modal
   },
   computed: {
     ...mapState(['bcInstance']),
-    ...mapGetters(['getWalletKeys']),
+    ...mapGetters(['getWalletKeys', 'getShowModal']),
     getPendingTransactions() {
       return this.bcInstance.pendingTransactions;
     }
   },
   methods: {
+    ...mapActions(['CHANGE_SHOW_MODAL']),
     minePendingTransactions() {
       this.bcInstance.minePendingTransactions(
         this.getWalletKeys[0].publicKey
       );
+      this.CHANGE_SHOW_MODAL(true);
     }
   }
 }
@@ -33,6 +43,11 @@ export default {
 
 <style lang="scss">
 .pendingTransaction {
+  &__title {
+    font-size: rem(40);
+    margin-top: rem(20);
+    margin-bottom: rem(50);
+  }
   &__btn {
     padding: rem(10);
     font-size: rem(20);

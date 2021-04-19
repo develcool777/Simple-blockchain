@@ -71,7 +71,6 @@ export default class BlockChain {
   }
 
   addTransaction(transaction) {
-    console.log(transaction);
     if (!transaction.sender || !transaction.receiver) {
       throw Error(`BlockChain.addTransaction() transaction must include from and to adress`);
     }
@@ -85,7 +84,6 @@ export default class BlockChain {
     let balance = 0;
     this.chain.forEach((block, index) => {
       if (index < 1) { return }
-      console.log(Array.isArray(block.transactions), '!');
       block.transactions.forEach(transaction => {
         if (transaction.sender === address) {
           balance -= transaction.amount;
@@ -114,16 +112,4 @@ export default class BlockChain {
     }
     return true;
   }
-
-  // showBlockChain(tab=1) {
-  //   console.log('BlockChain: [');
-  //   this.chain.forEach(block => {
-  //     console.log(`${(' ').repeat(1*tab)}Block: {`);
-  //     for (let key in block) {
-  //       console.log(`${(' ').repeat(2*tab)}${key}:`, block[key]);
-  //     }
-  //     console.log(`${(' ').repeat(1*tab)}}`);
-  //   })
-  //   console.log(']');
-  // }
 }
